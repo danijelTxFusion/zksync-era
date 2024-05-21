@@ -969,3 +969,7 @@ preloaded
 e2e
 upcasting
 foundryup
+TeeRequestProcessor
+l1_batch_number
+RequestProcessorError
+map_err
