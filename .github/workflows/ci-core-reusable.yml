@@ -177,8 +177,8 @@ jobs:
       - name: Show sccache logs
         if: always()
         run: |
-          ci_run sccache --show-stats
-          ci_run cat /tmp/sccache_log.txt
+          ci_run sccache --show-stats || true
+          ci_run cat /tmp/sccache_log.txt || true
 
   integration:
     name: Integration (consensus=${{ matrix.consensus }}, base_token=${{ matrix.base_token }}, deployment_mode=${{ matrix.deployment_mode }})
@@ -324,8 +324,8 @@ jobs:
       - name: Show sccache logs
         if: always()
         run: |
-          ci_run sccache --show-stats
-          ci_run cat /tmp/sccache_log.txt
+          ci_run sccache --show-stats || true
+          ci_run cat /tmp/sccache_log.txt || true
 
   external-node:
     name: External node (consensus=${{ matrix.consensus }}, base_token=${{ matrix.base_token }}, deployment_mode=${{ matrix.deployment_mode }})
@@ -445,5 +445,5 @@ jobs:
       - name: Show sccache logs
         if: always()
         run: |
-          ci_run sccache --show-stats
-          ci_run cat /tmp/sccache_log.txt
+          ci_run sccache --show-stats || true
+          ci_run cat /tmp/sccache_log.txt || true

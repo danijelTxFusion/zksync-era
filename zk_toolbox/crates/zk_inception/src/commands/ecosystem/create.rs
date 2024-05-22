@@ -6,6 +6,7 @@ use xshell::{cmd, Shell};
 
 use crate::{
     commands::{
+        containers::{initialize_docker, start_containers},
         containers::start_containers,
         ecosystem::{
             args::create::EcosystemCreateArgs,
@@ -21,7 +22,7 @@ use crate::{
 pub fn run(args: EcosystemCreateArgs, shell: &Shell) -> anyhow::Result<()> {
     match EcosystemConfig::from_file(shell) {
         Ok(_) => bail!("Ecosystem already exists"),
-        Err(EcosystemConfigFromFileError::InvalidConfig) => {
+        Err(EcosystemConfigFromFileError::InvalidConfig { .. }) => {
             bail!("Invalid ecosystem configuration")
         }
         Err(EcosystemConfigFromFileError::NotExists) => create(args, shell)?,
@@ -52,9 +53,9 @@ fn create(args: EcosystemCreateArgs, shell: &Shell) -> anyhow::Result<()> {
     };
 
     let spinner = Spinner::new("Creating initial configurations...");
-    let hyperchain_config = args.hyperchain_config();
-    let hyperchains_path = shell.create_dir("hyperchains")?;
-    let default_hyperchain_name = args.hyperchain_args.hyperchain_name.clone();
+    let chain_config = args.chain_config();
+    let chains_path = shell.create_dir("chains")?;
+    let default_chain_name = args.chain_args.chain_name.clone();
 
     create_initial_deployments_config(shell, &configs_path)?;
     create_erc20_deployment_config(shell, &configs_path)?;
@@ -63,12 +64,12 @@ fn create(args: EcosystemCreateArgs, shell: &Shell) -> anyhow::Result<()> {
         name: ecosystem_name.clone(),
         l1_network: args.l1_network,
         link_to_code: link_to_code.clone(),
-        hyperchains: hyperchains_path.clone(),
+        chains: chains_path.clone(),
         config: configs_path,
-        default_hyperchain: default_hyperchain_name.clone(),
+        default_chain: default_chain_name.clone(),
         l1_rpc_url: args.l1_rpc_url,
         era_chain_id: ERA_CHAIN_ID,
-        prover_version: hyperchain_config.prover_version,
+        prover_version: chain_config.prover_version,
         wallet_creation: args.wallet_creation,
         shell: shell.clone().into(),
     };
@@ -85,12 +86,13 @@ fn create(args: EcosystemCreateArgs, shell: &Shell) -> anyhow::Result<()> {
     ecosystem_config.save(shell, CONFIG_NAME)?;
     spinner.finish();
 
-    let spinner = Spinner::new("Creating default hyperchain...");
-    create_hyperchain_inner(hyperchain_config, &ecosystem_config, shell)?;
+    let spinner = Spinner::new("Creating default chain...");
+    create_chain_inner(chain_config, &ecosystem_config, shell)?;
     spinner.finish();
 
     if args.start_containers {
         let spinner = Spinner::new("Starting containers...");
+        initialize_docker(shell, &ecosystem_config)?;
         start_containers(shell)?;
         spinner.finish();
     }
@@ -102,7 +104,7 @@ fn create(args: EcosystemCreateArgs, shell: &Shell) -> anyhow::Result<()> {
 fn clone_era_repo(shell: &Shell) -> anyhow::Result<PathBuf> {
     Cmd::new(cmd!(
         shell,
-        "git clone -b deniallugo-update-contracts1 --recurse-submodules {ZKSYNC_ERA_GIT_REPO}"
+        "git clone --recurse-submodules {ZKSYNC_ERA_GIT_REPO}"
     ))
     .run()?;
     Ok(shell.current_dir().join("zksync-era"))

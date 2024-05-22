@@ -39,8 +39,6 @@ pub trait SaveConfig: Serialize + Sized {
 
 /// Saves a config file to a given path, correctly parsing file extension.
 /// Supported file extensions are: `yaml`, `yml`, `toml`.
-/// This trait extends `SaveConfig` with a method that allows to save a config file with a comment on
-/// top of the file.
 pub trait SaveConfigWithComment: Serialize + Sized {
     fn save_with_comment(
         &self,

@@ -1,4 +1,7 @@
-use common::forge::{Forge, ForgeScript, ForgeScriptArgs};
+use common::{
+    forge::{Forge, ForgeScript, ForgeScriptArgs},
+    spinner::Spinner,
+};
 use ethers::{abi::Address, types::H256};
 use xshell::Shell;
 
@@ -78,7 +81,9 @@ fn accept_ownership(
     )?;
 
     forge = fill_forge_private_key(forge, governor)?;
-    forge.run(shell)?;
 
+    let spinner = Spinner::new("Accepting governance");
+    forge.run(shell)?;
+    spinner.finish();
     Ok(())
 }

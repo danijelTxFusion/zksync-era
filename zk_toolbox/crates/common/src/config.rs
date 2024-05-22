@@ -13,6 +13,6 @@ pub fn global_config() -> &'static GlobalConfig {
 #[derive(Debug)]
 pub struct GlobalConfig {
     pub verbose: bool,
-    pub hyperchain_name: Option<String>,
+    pub chain_name: Option<String>,
     pub ignore_prerequisites: bool,
 }
