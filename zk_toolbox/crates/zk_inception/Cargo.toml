@@ -13,7 +13,6 @@ keywords.workspace = true
 [dependencies]
 anyhow.workspace = true
 clap.workspace = true
-cliclack.workspace = true
 common.workspace = true
 console.workspace = true
 ethers.workspace = true
