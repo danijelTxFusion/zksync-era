@@ -4522,6 +4522,8 @@ dependencies = [
  "clap",
  "common",
  "human-panic",
+ "strum 0.26.2",
+ "strum_macros 0.26.2",
  "tokio",
  "xshell",
  "zk_inception",
