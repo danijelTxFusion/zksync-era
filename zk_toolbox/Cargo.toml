@@ -20,6 +20,7 @@ keywords = ["zk", "cryptography", "blockchain", "ZKStack", "zkSync"]
 [workspace.dependencies]
 # Local dependencies
 common = { path = "crates/common" }
+zk_inception = { path = "crates/zk_inception" }
 
 # External dependencies
 anyhow = "1.0.82"

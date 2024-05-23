@@ -6,20 +6,10 @@ use common::{
 };
 use xshell::Shell;
 
-use crate::{
-    commands::{args::RunServerArgs, chain::ChainCommands, ecosystem::EcosystemCommands},
+use zk_inception::{
+    commands::{self, args::RunServerArgs, chain::ChainCommands, ecosystem::EcosystemCommands},
     configs::EcosystemConfig,
 };
-
-pub mod accept_ownership;
-mod commands;
-mod configs;
-mod consts;
-mod defaults;
-pub mod forge_utils;
-pub mod server;
-mod types;
-mod wallets;
 
 #[derive(Parser, Debug)]
 #[command(version, about)]

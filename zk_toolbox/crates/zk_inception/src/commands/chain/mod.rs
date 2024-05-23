@@ -27,7 +27,7 @@ pub enum ChainCommands {
     DeployPaymaster(ForgeScriptArgs),
 }
 
-pub(crate) async fn run(shell: &Shell, args: ChainCommands) -> anyhow::Result<()> {
+pub async fn run(shell: &Shell, args: ChainCommands) -> anyhow::Result<()> {
     match args {
         ChainCommands::Create(args) => create::run(args, shell),
         ChainCommands::Init(args) => init::run(args, shell).await,

@@ -11,4 +11,10 @@ description.workspace = true
 keywords.workspace = true
 
 [dependencies]
+anyhow.workspace = true
+clap.workspace = true
+common.workspace = true
 human-panic.workspace = true
+tokio.workspace = true
+xshell.workspace = true
+zk_inception.workspace = true

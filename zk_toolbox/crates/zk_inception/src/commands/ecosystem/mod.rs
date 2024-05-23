@@ -23,7 +23,7 @@ pub enum EcosystemCommands {
     ChangeDefaultChain(ChangeDefaultChain),
 }
 
-pub(crate) async fn run(shell: &Shell, args: EcosystemCommands) -> anyhow::Result<()> {
+pub async fn run(shell: &Shell, args: EcosystemCommands) -> anyhow::Result<()> {
     match args {
         EcosystemCommands::Create(args) => create::run(args, shell),
         EcosystemCommands::Init(args) => init::run(args, shell).await,
