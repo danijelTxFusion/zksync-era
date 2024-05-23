@@ -1,5 +1,4 @@
 use clap::{Parser, Subcommand};
-use commands::database::DatabaseCommands;
 use common::{
     check_prerequisites,
     config::{global_config, init_global_config, GlobalConfig},
@@ -7,8 +6,7 @@ use common::{
 };
 use xshell::Shell;
 use zk_inception::configs::EcosystemConfig;
-
-mod commands;
+use zk_supervisor::commands::{self, database::DatabaseCommands};
 
 #[derive(Parser, Debug)]
 #[command(version, about)]

@@ -1,8 +1,7 @@
 use super::args::drop::DatabaseDropArgs;
-use anyhow::anyhow;
+use crate::dals::{get_core_dal, get_prover_dal, Dal};
 use common::{cmd::Cmd, logger, spinner::Spinner, PromptConfirm};
 use xshell::{cmd, Shell};
-use zk_inception::configs::EcosystemConfig;
 
 pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
     let args = args.fill_values_with_prompt();
@@ -20,17 +19,11 @@ pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
 
     logger::info("Dropping databases");
 
-    let ecosystem_config = EcosystemConfig::from_file(shell)?;
-    let chain_config = ecosystem_config
-        .load_chain(args.chain.clone())
-        .ok_or(anyhow!("Chain not found"))?;
-    let secrets = chain_config.get_secrets_config()?;
-
     if args.prover {
-        drop_database(shell, "prover", &secrets.database.prover_url)?;
+        drop_database(shell, get_prover_dal(shell, args.chain.clone())?)?;
     }
     if args.core {
-        drop_database(shell, "core", &secrets.database.server_url)?;
+        drop_database(shell, get_core_dal(shell, args.chain)?)?;
     }
 
     logger::outro("Databases dropped successfully");
@@ -38,11 +31,12 @@ pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn drop_database(shell: &Shell, db_name: &str, db_url: &str) -> anyhow::Result<()> {
-    let spinner = Spinner::new(&format!("Dropping {db_name} database"));
+fn drop_database(shell: &Shell, dal: Dal) -> anyhow::Result<()> {
+    let spinner = Spinner::new(&format!("Dropping DB for dal {}", dal.path));
+    let url = dal.url;
     Cmd::new(cmd!(
         shell,
-        "cargo sqlx database drop -y --database-url {db_url}"
+        "cargo sqlx database drop -y --database-url {url}"
     ))
     .run()?;
     spinner.finish();

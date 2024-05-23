@@ -10,6 +10,13 @@ repository.workspace = true
 description.workspace = true
 keywords.workspace = true
 
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "zk_supervisor"
+path = "src/main.rs"
+
 [dependencies]
 anyhow.workspace = true
 clap.workspace = true
