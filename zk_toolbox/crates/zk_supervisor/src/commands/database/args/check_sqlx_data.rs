@@ -1,4 +1,4 @@
-use super::DatabaseCommonArgs;
+use super::{DatabaseCommonArgs, DatabaseCommonArgsFinal};
 use clap::Parser;
 
 #[derive(Debug, Parser)]
@@ -11,17 +11,11 @@ impl DatabaseCheckSqlxDataArgs {
     pub fn fill_values_with_prompt(self) -> DatabaseCheckSqlxDataArgsFinal {
         let common = self.common.fill_values_with_prompt("check sqlx data for");
 
-        DatabaseCheckSqlxDataArgsFinal {
-            prover: common.prover,
-            core: common.core,
-            chain: common.chain,
-        }
+        DatabaseCheckSqlxDataArgsFinal { common }
     }
 }
 
 #[derive(Debug)]
 pub struct DatabaseCheckSqlxDataArgsFinal {
-    pub prover: bool,
-    pub core: bool,
-    pub chain: Option<String>,
+    pub common: DatabaseCommonArgsFinal,
 }

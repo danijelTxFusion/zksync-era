@@ -1,4 +1,4 @@
-use super::DatabaseCommonArgs;
+use super::{DatabaseCommonArgs, DatabaseCommonArgsFinal};
 use clap::Parser;
 
 #[derive(Debug, Parser)]
@@ -11,17 +11,11 @@ impl DatabasePrepareArgs {
     pub fn fill_values_with_prompt(self) -> DatabasePrepareArgsFinal {
         let common = self.common.fill_values_with_prompt("prepare");
 
-        DatabasePrepareArgsFinal {
-            prover: common.prover,
-            core: common.core,
-            chain: common.chain,
-        }
+        DatabasePrepareArgsFinal { common }
     }
 }
 
 #[derive(Debug)]
 pub struct DatabasePrepareArgsFinal {
-    pub prover: bool,
-    pub core: bool,
-    pub chain: Option<String>,
+    pub common: DatabaseCommonArgsFinal,
 }

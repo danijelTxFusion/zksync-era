@@ -7,7 +7,7 @@ use zk_inception::configs::EcosystemConfig;
 
 pub fn run(shell: &Shell, args: DatabasePrepareArgs) -> anyhow::Result<()> {
     let args = args.fill_values_with_prompt();
-    if !args.prover && !args.core {
+    if !args.common.prover && !args.common.core {
         logger::outro("No databases selected to prepare");
         return Ok(());
     }
@@ -16,19 +16,15 @@ pub fn run(shell: &Shell, args: DatabasePrepareArgs) -> anyhow::Result<()> {
 
     logger::info("Preparing sqlx data");
 
-    if args.prover {
+    if args.common.prover {
         prepare_sqlx_data(
             shell,
             &ecosystem_config.link_to_code,
-            get_prover_dal(shell, args.chain.clone())?,
+            get_prover_dal(shell)?,
         )?;
     }
-    if args.core {
-        prepare_sqlx_data(
-            shell,
-            &ecosystem_config.link_to_code,
-            get_core_dal(shell, args.chain)?,
-        )?;
+    if args.common.core {
+        prepare_sqlx_data(shell, &ecosystem_config.link_to_code, get_core_dal(shell)?)?;
     }
 
     logger::outro("Databases sqlx data prepared successfully");

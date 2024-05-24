@@ -2,7 +2,6 @@ use self::args::{
     check_sqlx_data::DatabaseCheckSqlxDataArgs, drop::DatabaseDropArgs,
     migrate::DatabaseMigrateArgs, new_migration::DatabaseNewMigrationArgs,
     prepare::DatabasePrepareArgs, reset::DatabaseResetArgs, setup::DatabaseSetupArgs,
-    wait::DatabaseWaitArgs,
 };
 use clap::Subcommand;
 use xshell::Shell;
@@ -15,7 +14,6 @@ mod new_migration;
 mod prepare;
 mod reset;
 mod setup;
-mod wait;
 
 #[derive(Subcommand, Debug)]
 pub enum DatabaseCommands {
@@ -33,8 +31,6 @@ pub enum DatabaseCommands {
     Reset(DatabaseResetArgs),
     /// Setup databases
     Setup(DatabaseSetupArgs),
-    /// Wait for databases to be ready
-    Wait(DatabaseWaitArgs),
 }
 
 pub fn run(shell: &Shell, args: DatabaseCommands) -> anyhow::Result<()> {
@@ -46,6 +42,5 @@ pub fn run(shell: &Shell, args: DatabaseCommands) -> anyhow::Result<()> {
         DatabaseCommands::Prepare(args) => prepare::run(shell, args),
         DatabaseCommands::Reset(args) => reset::run(shell, args),
         DatabaseCommands::Setup(args) => setup::run(shell, args),
-        DatabaseCommands::Wait(args) => wait::run(shell, args),
     }
 }

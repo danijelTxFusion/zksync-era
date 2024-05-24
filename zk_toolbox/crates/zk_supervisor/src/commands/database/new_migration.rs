@@ -9,8 +9,8 @@ pub fn run(shell: &Shell, args: DatabaseNewMigrationArgs) -> anyhow::Result<()> 
     let args = args.fill_values_with_prompt();
 
     let dal = match args.selected_database {
-        SelectedDatabase::Core => get_core_dal(shell, args.chain.clone())?,
-        SelectedDatabase::Prover => get_prover_dal(shell, args.chain)?,
+        SelectedDatabase::Core => get_core_dal(shell)?,
+        SelectedDatabase::Prover => get_prover_dal(shell)?,
     };
     let ecosystem_config = EcosystemConfig::from_file(shell)?;
 

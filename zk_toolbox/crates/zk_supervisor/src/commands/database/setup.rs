@@ -7,7 +7,7 @@ use zk_inception::configs::EcosystemConfig;
 
 pub fn run(shell: &Shell, args: DatabaseSetupArgs) -> anyhow::Result<()> {
     let args = args.fill_values_with_prompt();
-    if !args.prover && !args.core {
+    if !args.common.prover && !args.common.core {
         logger::outro("No databases selected to setup");
         return Ok(());
     }
@@ -16,19 +16,15 @@ pub fn run(shell: &Shell, args: DatabaseSetupArgs) -> anyhow::Result<()> {
 
     logger::info("Setting up databases");
 
-    if args.prover {
+    if args.common.prover {
         setup_database(
             shell,
             &ecosystem_config.link_to_code,
-            get_prover_dal(shell, args.chain.clone())?,
+            get_prover_dal(shell)?,
         )?;
     }
-    if args.core {
-        setup_database(
-            shell,
-            &ecosystem_config.link_to_code,
-            get_core_dal(shell, args.chain)?,
-        )?;
+    if args.common.core {
+        setup_database(shell, &ecosystem_config.link_to_code, get_core_dal(shell)?)?;
     }
 
     logger::outro("Databases set up successfully");

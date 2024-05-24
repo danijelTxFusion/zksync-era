@@ -1,39 +1,28 @@
 use super::args::migrate::DatabaseMigrateArgs;
 use crate::dals::{get_core_dal, get_prover_dal, Dal};
-use common::{cmd::Cmd, logger, spinner::Spinner, PromptConfirm};
+use common::{cmd::Cmd, logger, spinner::Spinner};
 use std::path::Path;
 use xshell::{cmd, Shell};
 use zk_inception::configs::EcosystemConfig;
 
 pub fn run(shell: &Shell, args: DatabaseMigrateArgs) -> anyhow::Result<()> {
     let args = args.fill_values_with_prompt();
-    if !args.prover && !args.core {
+    if !args.common.prover && !args.common.core {
         logger::outro("No databases selected to migrate");
-        return Ok(());
-    }
-
-    if !args.yes
-        && !PromptConfirm::new("Are you sure you want to migrate the selected databases?").ask()
-    {
-        logger::outro("Databases not migrated");
         return Ok(());
     }
 
     logger::info("Migrating databases");
     let ecosystem_config = EcosystemConfig::from_file(shell)?;
 
-    if args.core {
-        migrate_database(
-            shell,
-            &ecosystem_config.link_to_code,
-            get_core_dal(shell, args.chain.clone())?,
-        )?;
+    if args.common.core {
+        migrate_database(shell, &ecosystem_config.link_to_code, get_core_dal(shell)?)?;
     }
-    if args.prover {
+    if args.common.prover {
         migrate_database(
             shell,
             &ecosystem_config.link_to_code,
-            get_prover_dal(shell, args.chain)?,
+            get_prover_dal(shell)?,
         )?;
     }
 

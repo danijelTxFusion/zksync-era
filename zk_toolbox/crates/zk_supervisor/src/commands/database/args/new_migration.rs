@@ -11,12 +11,6 @@ pub struct DatabaseNewMigrationArgs {
     /// Migration name
     #[clap(long)]
     pub name: Option<String>,
-    /// Selected chain, if not provided default will be used
-    #[clap(long)]
-    pub chain: Option<String>,
-    /// Skip confirmation
-    #[clap(short)]
-    pub yes: bool,
 }
 
 impl DatabaseNewMigrationArgs {
@@ -35,8 +29,6 @@ impl DatabaseNewMigrationArgs {
         DatabaseNewMigrationArgsFinal {
             selected_database,
             name,
-            chain: self.chain,
-            yes: self.yes,
         }
     }
 }
@@ -45,8 +37,6 @@ impl DatabaseNewMigrationArgs {
 pub struct DatabaseNewMigrationArgsFinal {
     pub selected_database: SelectedDatabase,
     pub name: String,
-    pub chain: Option<String>,
-    pub yes: bool,
 }
 
 #[derive(Debug, Clone, ValueEnum, EnumIter, PartialEq, Eq, Display)]
