@@ -32,7 +32,7 @@ pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
 }
 
 fn drop_database(shell: &Shell, dal: Dal) -> anyhow::Result<()> {
-    let spinner = Spinner::new(&format!("Dropping DB for dal {}", dal.path));
+    let spinner = Spinner::new(&format!("Dropping DB for dal {}...", dal.path));
     let url = dal.url;
     Cmd::new(cmd!(
         shell,

@@ -28,7 +28,10 @@ fn generate_migration(
     let dir = link_to_code.as_ref().join(&dal.path);
     let _dir_guard = shell.push_dir(dir);
 
-    let spinner = Spinner::new(&format!("Creating new DB migration for dal {}", dal.path));
+    let spinner = Spinner::new(&format!(
+        "Creating new DB migration for dal {}...",
+        dal.path
+    ));
     Cmd::new(cmd!(shell, "cargo sqlx migrate add -r {name}")).run()?;
     spinner.finish();
 
