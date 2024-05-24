@@ -14,7 +14,7 @@ pub fn run(shell: &Shell, args: DatabaseNewMigrationArgs) -> anyhow::Result<()> 
     };
     let ecosystem_config = EcosystemConfig::from_file(shell)?;
 
-    generate_migration(shell, &ecosystem_config.link_to_code, dal, args.name)?;
+    generate_migration(shell, ecosystem_config.link_to_code, dal, args.name)?;
 
     Ok(())
 }
