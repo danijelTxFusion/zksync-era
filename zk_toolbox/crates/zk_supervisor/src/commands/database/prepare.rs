@@ -1,13 +1,13 @@
-use super::args::prepare::DatabasePrepareArgs;
+use super::args::DatabaseCommonArgs;
 use crate::dals::{get_core_dal, get_prover_dal, Dal};
 use common::{cmd::Cmd, logger, spinner::Spinner};
 use std::path::Path;
 use xshell::{cmd, Shell};
 use zk_inception::configs::EcosystemConfig;
 
-pub fn run(shell: &Shell, args: DatabasePrepareArgs) -> anyhow::Result<()> {
-    let args = args.fill_values_with_prompt();
-    if !args.common.prover && !args.common.core {
+pub fn run(shell: &Shell, args: DatabaseCommonArgs) -> anyhow::Result<()> {
+    let args = args.fill_values_with_prompt("prepare");
+    if !args.prover && !args.core {
         logger::outro("No databases selected to prepare");
         return Ok(());
     }
@@ -16,14 +16,14 @@ pub fn run(shell: &Shell, args: DatabasePrepareArgs) -> anyhow::Result<()> {
 
     logger::info("Preparing sqlx data");
 
-    if args.common.prover {
+    if args.prover {
         prepare_sqlx_data(
             shell,
             &ecosystem_config.link_to_code,
             get_prover_dal(shell)?,
         )?;
     }
-    if args.common.core {
+    if args.core {
         prepare_sqlx_data(shell, &ecosystem_config.link_to_code, get_core_dal(shell)?)?;
     }
 

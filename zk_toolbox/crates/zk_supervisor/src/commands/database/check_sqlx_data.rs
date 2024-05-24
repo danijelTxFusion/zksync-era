@@ -1,13 +1,13 @@
-use super::args::check_sqlx_data::DatabaseCheckSqlxDataArgs;
+use super::args::DatabaseCommonArgs;
 use crate::dals::{get_core_dal, get_prover_dal, Dal};
 use common::{cmd::Cmd, logger, spinner::Spinner};
 use std::path::Path;
 use xshell::{cmd, Shell};
 use zk_inception::configs::EcosystemConfig;
 
-pub fn run(shell: &Shell, args: DatabaseCheckSqlxDataArgs) -> anyhow::Result<()> {
-    let args = args.fill_values_with_prompt();
-    if !args.common.prover && !args.common.core {
+pub fn run(shell: &Shell, args: DatabaseCommonArgs) -> anyhow::Result<()> {
+    let args = args.fill_values_with_prompt("check sqlx data for");
+    if !args.prover && !args.core {
         logger::outro("No databases selected to check");
         return Ok(());
     }
@@ -16,14 +16,14 @@ pub fn run(shell: &Shell, args: DatabaseCheckSqlxDataArgs) -> anyhow::Result<()>
 
     logger::info("Checking sqlx data");
 
-    if args.common.prover {
+    if args.prover {
         check_sqlx_data(
             shell,
             &ecosystem_config.link_to_code,
             get_prover_dal(shell)?,
         )?;
     }
-    if args.common.core {
+    if args.core {
         check_sqlx_data(shell, &ecosystem_config.link_to_code, get_core_dal(shell)?)?;
     }
 

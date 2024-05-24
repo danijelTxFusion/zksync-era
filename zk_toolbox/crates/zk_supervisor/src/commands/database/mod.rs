@@ -1,8 +1,4 @@
-use self::args::{
-    check_sqlx_data::DatabaseCheckSqlxDataArgs, drop::DatabaseDropArgs,
-    migrate::DatabaseMigrateArgs, new_migration::DatabaseNewMigrationArgs,
-    prepare::DatabasePrepareArgs, reset::DatabaseResetArgs, setup::DatabaseSetupArgs,
-};
+use self::args::{new_migration::DatabaseNewMigrationArgs, DatabaseCommonArgs};
 use clap::Subcommand;
 use xshell::Shell;
 
@@ -18,19 +14,19 @@ mod setup;
 #[derive(Subcommand, Debug)]
 pub enum DatabaseCommands {
     /// Check sqlx-data.json is up to date
-    CheckSqlxData(DatabaseCheckSqlxDataArgs),
+    CheckSqlxData(DatabaseCommonArgs),
     /// Drop databases
-    Drop(DatabaseDropArgs),
+    Drop(DatabaseCommonArgs),
     /// Migrate databases
-    Migrate(DatabaseMigrateArgs),
+    Migrate(DatabaseCommonArgs),
     /// Create new migration
     NewMigration(DatabaseNewMigrationArgs),
     /// Prepare sqlx-data.json
-    Prepare(DatabasePrepareArgs),
+    Prepare(DatabaseCommonArgs),
     /// Reset databases
-    Reset(DatabaseResetArgs),
+    Reset(DatabaseCommonArgs),
     /// Setup databases
-    Setup(DatabaseSetupArgs),
+    Setup(DatabaseCommonArgs),
 }
 
 pub async fn run(shell: &Shell, args: DatabaseCommands) -> anyhow::Result<()> {

@@ -1,4 +1,4 @@
-use super::args::drop::DatabaseDropArgs;
+use super::args::DatabaseCommonArgs;
 use crate::dals::{get_core_dal, get_prover_dal, Dal};
 use common::{
     db::{drop_db_if_exists, split_db_url},
@@ -7,19 +7,19 @@ use common::{
 };
 use xshell::Shell;
 
-pub async fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
-    let args = args.fill_values_with_prompt();
-    if !args.common.prover && !args.common.core {
+pub async fn run(shell: &Shell, args: DatabaseCommonArgs) -> anyhow::Result<()> {
+    let args = args.fill_values_with_prompt("drop");
+    if !args.prover && !args.core {
         logger::outro("No databases selected to drop");
         return Ok(());
     }
 
     logger::info("Dropping databases");
 
-    if args.common.prover {
+    if args.prover {
         drop_database(get_prover_dal(shell)?).await?;
     }
-    if args.common.core {
+    if args.core {
         drop_database(get_core_dal(shell)?).await?;
     }
 

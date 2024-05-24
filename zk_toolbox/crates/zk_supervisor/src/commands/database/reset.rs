@@ -1,20 +1,20 @@
-use super::{args::reset::DatabaseResetArgs, drop::drop_database, setup::setup_database};
+use super::{args::DatabaseCommonArgs, drop::drop_database, setup::setup_database};
 use crate::dals::{get_core_dal, get_prover_dal, Dal};
 use common::logger;
 use std::path::Path;
 use xshell::Shell;
 use zk_inception::configs::EcosystemConfig;
 
-pub async fn run(shell: &Shell, args: DatabaseResetArgs) -> anyhow::Result<()> {
-    let args = args.fill_values_with_prompt();
-    if !args.common.prover && !args.common.core {
+pub async fn run(shell: &Shell, args: DatabaseCommonArgs) -> anyhow::Result<()> {
+    let args = args.fill_values_with_prompt("reset");
+    if !args.prover && !args.core {
         logger::outro("No databases selected");
         return Ok(());
     }
 
     let ecoseystem_config = EcosystemConfig::from_file(shell)?;
 
-    if args.common.prover {
+    if args.prover {
         logger::info("Resetting prover database");
         reset_database(
             shell,
@@ -23,7 +23,7 @@ pub async fn run(shell: &Shell, args: DatabaseResetArgs) -> anyhow::Result<()> {
         )
         .await?;
     }
-    if args.common.core {
+    if args.core {
         logger::info("Resetting core database");
         reset_database(shell, ecoseystem_config.link_to_code, get_core_dal(shell)?).await?;
     }
