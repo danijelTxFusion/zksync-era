@@ -5,6 +5,7 @@ use crate::{
     config::global_config,
     logger::{self},
 };
+use std::process::Output;
 
 /// A wrapper around [`xshell::Cmd`] that allows for improved error handling,
 /// and verbose logging.
@@ -31,13 +32,6 @@ impl<'a> Cmd<'a> {
 
     /// Run the command without capturing its output.
     pub fn run(&mut self) -> anyhow::Result<()> {
-        self.run_cmd()?;
-        Ok(())
-    }
-
-    /// Run the command and capture its output, logging the command
-    /// and its output if verbose selected.
-    fn run_cmd(&mut self) -> anyhow::Result<()> {
         if global_config().verbose || self.force_run {
             logger::debug(format!("Running: {}", self.inner));
             logger::new_empty_line();
@@ -45,8 +39,6 @@ impl<'a> Cmd<'a> {
             logger::new_empty_line();
             logger::new_line();
         } else {
-            // Command will be logged manually.
-            self.inner.set_quiet(true);
             // Error will be handled manually.
             self.inner.set_ignore_status(true);
             let output = self.inner.output()?;
@@ -58,6 +50,25 @@ impl<'a> Cmd<'a> {
         }
 
         Ok(())
+    }
+
+    /// Run the command and return its output.
+    pub fn run_with_output(&mut self) -> anyhow::Result<Output> {
+        if global_config().verbose || self.force_run {
+            logger::debug(format!("Running: {}", self.inner));
+            logger::new_empty_line();
+        }
+
+        self.inner.set_ignore_status(true);
+        let output = self.inner.output()?;
+
+        if global_config().verbose || self.force_run {
+            logger::raw(log_output(&output));
+            logger::new_empty_line();
+            logger::new_line();
+        }
+
+        Ok(output)
     }
 
     fn check_output_status(&self, output: &std::process::Output) -> anyhow::Result<()> {
