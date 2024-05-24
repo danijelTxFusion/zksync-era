@@ -1,7 +1,7 @@
 use crate::{cmd::Cmd, logger};
 use xshell::{cmd, Shell};
 
-const PREREQUISITES: [Prerequisite; 6] = [
+const PREREQUISITES: [Prerequisite; 7] = [
     Prerequisite {
         name: "git",
         download_link: "https://git-scm.com/book/en/v2/Getting-Started-Installing-Git",
@@ -25,6 +25,10 @@ const PREREQUISITES: [Prerequisite; 6] = [
     Prerequisite {
         name: "yarn",
         download_link: "https://yarnpkg.com/getting-started/install",
+    },
+    Prerequisite {
+        name: "pg_isready",
+        download_link: "https://www.postgresql.org/download",
     },
 ];
 
