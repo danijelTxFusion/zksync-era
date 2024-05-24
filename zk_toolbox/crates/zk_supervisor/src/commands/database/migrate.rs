@@ -34,7 +34,7 @@ pub fn run(shell: &Shell, args: DatabaseMigrateArgs) -> anyhow::Result<()> {
 fn migrate_database(shell: &Shell, link_to_code: impl AsRef<Path>, dal: Dal) -> anyhow::Result<()> {
     let dir = link_to_code.as_ref().join(&dal.path);
     let _dir_guard = shell.push_dir(dir);
-    let url = dal.url;
+    let url = dal.url.as_str();
 
     let spinner = Spinner::new(&format!("Migrating DB for dal {}...", dal.path));
     Cmd::new(cmd!(

@@ -83,7 +83,7 @@ async fn main() -> anyhow::Result<()> {
 
 async fn run_subcommand(args: Supervisor, shell: &Shell) -> anyhow::Result<()> {
     match args.command {
-        SupervisorSubcommands::Database(command) => commands::database::run(shell, command)?,
+        SupervisorSubcommands::Database(command) => commands::database::run(shell, command).await?,
     }
     Ok(())
 }

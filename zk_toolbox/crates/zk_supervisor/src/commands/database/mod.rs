@@ -33,14 +33,14 @@ pub enum DatabaseCommands {
     Setup(DatabaseSetupArgs),
 }
 
-pub fn run(shell: &Shell, args: DatabaseCommands) -> anyhow::Result<()> {
+pub async fn run(shell: &Shell, args: DatabaseCommands) -> anyhow::Result<()> {
     match args {
         DatabaseCommands::CheckSqlxData(args) => check_sqlx_data::run(shell, args),
-        DatabaseCommands::Drop(args) => drop::run(shell, args),
+        DatabaseCommands::Drop(args) => drop::run(shell, args).await,
         DatabaseCommands::Migrate(args) => migrate::run(shell, args),
         DatabaseCommands::NewMigration(args) => new_migration::run(shell, args),
         DatabaseCommands::Prepare(args) => prepare::run(shell, args),
-        DatabaseCommands::Reset(args) => reset::run(shell, args),
+        DatabaseCommands::Reset(args) => reset::run(shell, args).await,
         DatabaseCommands::Setup(args) => setup::run(shell, args),
     }
 }

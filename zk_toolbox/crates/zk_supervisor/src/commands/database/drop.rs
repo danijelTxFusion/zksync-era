@@ -1,9 +1,13 @@
 use super::args::drop::DatabaseDropArgs;
 use crate::dals::{get_core_dal, get_prover_dal, Dal};
-use common::{cmd::Cmd, logger, spinner::Spinner};
-use xshell::{cmd, Shell};
+use common::{
+    db::{drop_db_if_exists, split_db_url},
+    logger,
+    spinner::Spinner,
+};
+use xshell::Shell;
 
-pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
+pub async fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
     let args = args.fill_values_with_prompt();
     if !args.common.prover && !args.common.core {
         logger::outro("No databases selected to drop");
@@ -13,10 +17,10 @@ pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
     logger::info("Dropping databases");
 
     if args.common.prover {
-        drop_database(shell, get_prover_dal(shell)?)?;
+        drop_database(get_prover_dal(shell)?).await?;
     }
     if args.common.core {
-        drop_database(shell, get_core_dal(shell)?)?;
+        drop_database(get_core_dal(shell)?).await?;
     }
 
     logger::outro("Databases dropped successfully");
@@ -24,14 +28,10 @@ pub fn run(shell: &Shell, args: DatabaseDropArgs) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn drop_database(shell: &Shell, dal: Dal) -> anyhow::Result<()> {
+pub async fn drop_database(dal: Dal) -> anyhow::Result<()> {
     let spinner = Spinner::new(&format!("Dropping DB for dal {}...", dal.path));
-    let url = dal.url;
-    Cmd::new(cmd!(
-        shell,
-        "cargo sqlx database drop -y --database-url {url}"
-    ))
-    .run()?;
+    let (url, db_name) = split_db_url(&dal.url);
+    drop_db_if_exists(&url, &db_name).await?;
     spinner.finish();
     Ok(())
 }

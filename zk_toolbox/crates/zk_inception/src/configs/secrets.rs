@@ -5,8 +5,8 @@ use crate::configs::{ReadConfig, SaveConfig};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DatabaseSecrets {
-    pub server_url: String,
-    pub prover_url: String,
+    pub server_url: Url,
+    pub prover_url: Url,
     #[serde(flatten)]
     pub other: serde_json::Value,
 }
@@ -40,8 +40,8 @@ impl DatabaseConfig {
         }
     }
 
-    pub fn full_url(&self) -> String {
-        format!("{}/{}", self.base_url, self.database_name)
+    pub fn full_url(&self) -> Url {
+        self.base_url.join(&self.database_name).unwrap()
     }
 }
 

@@ -1,5 +1,6 @@
 use anyhow::anyhow;
 use common::config::global_config;
+use url::Url;
 use xshell::Shell;
 use zk_inception::configs::{EcosystemConfig, Secrets};
 
@@ -9,7 +10,7 @@ const PROVER_DAL_PATH: &str = "prover/prover_dal";
 #[derive(Debug, Clone)]
 pub struct Dal {
     pub path: String,
-    pub url: String,
+    pub url: Url,
 }
 
 pub fn get_prover_dal(shell: &Shell) -> anyhow::Result<Dal> {

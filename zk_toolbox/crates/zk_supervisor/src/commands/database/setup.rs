@@ -39,7 +39,7 @@ pub fn setup_database(
 ) -> anyhow::Result<()> {
     let dir = link_to_code.as_ref().join(&dal.path);
     let _dir_guard = shell.push_dir(dir);
-    let url = dal.url;
+    let url = dal.url.as_str();
 
     let spinner = Spinner::new(&format!("Setting up DB for dal {}...", dal.path));
     Cmd::new(cmd!(

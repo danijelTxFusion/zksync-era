@@ -532,6 +532,7 @@ dependencies = [
  "sqlx",
  "strum 0.26.2",
  "strum_macros 0.26.2",
+ "tokio",
  "toml",
  "url",
  "xshell",
@@ -4525,6 +4526,7 @@ dependencies = [
  "strum 0.26.2",
  "strum_macros 0.26.2",
  "tokio",
+ "url",
  "xshell",
  "zk_inception",
 ]
