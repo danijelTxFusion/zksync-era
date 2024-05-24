@@ -1,17 +1,10 @@
+use super::DatabaseCommonArgs;
 use clap::Parser;
-use common::PromptConfirm;
 
 #[derive(Debug, Parser)]
 pub struct DatabaseResetArgs {
-    /// Prover
-    #[clap(short, long, default_missing_value = "true", num_args = 0..=1)]
-    pub prover: Option<bool>,
-    /// Core
-    #[clap(short, long, default_missing_value = "true", num_args = 0..=1)]
-    pub core: Option<bool>,
-    /// Selected chain, if not provided default will be used
-    #[clap(long)]
-    pub chain: Option<String>,
+    #[clap(flatten)]
+    pub common: DatabaseCommonArgs,
     /// Skip confirmation
     #[clap(short)]
     pub yes: bool,
@@ -19,18 +12,12 @@ pub struct DatabaseResetArgs {
 
 impl DatabaseResetArgs {
     pub fn fill_values_with_prompt(self) -> DatabaseResetArgsFinal {
-        let prover = self.prover.unwrap_or_else(|| {
-            PromptConfirm::new("Do you want to reset the prover database?").ask()
-        });
-
-        let core = self
-            .core
-            .unwrap_or_else(|| PromptConfirm::new("Do you want to reset the core database?").ask());
+        let common = self.common.fill_values_with_prompt("reset");
 
         DatabaseResetArgsFinal {
-            prover,
-            core,
-            chain: self.chain,
+            prover: common.prover,
+            core: common.core,
+            chain: common.chain,
             yes: self.yes,
         }
     }
