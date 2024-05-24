@@ -36,7 +36,11 @@ pub fn run(shell: &Shell, args: DatabaseSetupArgs) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn setup_database(shell: &Shell, link_to_code: impl AsRef<Path>, dal: Dal) -> anyhow::Result<()> {
+pub fn setup_database(
+    shell: &Shell,
+    link_to_code: impl AsRef<Path>,
+    dal: Dal,
+) -> anyhow::Result<()> {
     let dir = link_to_code.as_ref().join(&dal.path);
     let _dir_guard = shell.push_dir(dir);
     let url = dal.url;

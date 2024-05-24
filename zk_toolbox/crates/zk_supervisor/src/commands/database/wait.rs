@@ -28,7 +28,7 @@ pub fn run(shell: &Shell, args: DatabaseWaitArgs) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn wait_database(shell: &Shell, dal: Dal, tries: u32) -> anyhow::Result<()> {
+pub fn wait_database(shell: &Shell, dal: Dal, tries: u32) -> anyhow::Result<()> {
     let url = dal.url;
     let spinner = Spinner::new(&format!(
         "Waiting until DB for dal {} is ready...",

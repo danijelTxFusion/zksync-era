@@ -5,6 +5,7 @@ use zk_inception::configs::{EcosystemConfig, Secrets};
 const CORE_DAL_PATH: &str = "core/lib/dal";
 const PROVER_DAL_PATH: &str = "prover/prover_dal";
 
+#[derive(Debug, Clone)]
 pub struct Dal {
     pub path: String,
     pub url: String,
