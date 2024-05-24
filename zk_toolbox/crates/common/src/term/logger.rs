@@ -43,7 +43,7 @@ pub fn success(msg: impl Display) {
     log::success(msg).unwrap();
 }
 
-pub fn raw(msg: impl Display) {
+pub fn step(msg: impl Display) {
     log::step(msg).unwrap();
 }
 
@@ -100,6 +100,10 @@ pub fn object_to_string(obj: impl Serialize) -> String {
     }
 
     traverse_json(&json, 2)
+}
+
+pub fn raw(msg: impl Display) {
+    term_write(msg);
 }
 
 pub fn new_empty_line() {
