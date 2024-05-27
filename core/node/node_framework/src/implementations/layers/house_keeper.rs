@@ -16,11 +16,10 @@ use zksync_house_keeper::{
     },
 };
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::pools::{PoolResource, ProverPool, ReplicaPool},
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

@@ -2,14 +2,13 @@ use std::time::Duration;
 
 use zksync_node_api_server::web3::mempool_cache::{self, MempoolCache};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         pools::{PoolResource, ReplicaPool},
         web3_api::MempoolCacheResource,
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

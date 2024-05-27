@@ -1,11 +1,10 @@
 use zksync_circuit_breaker::CircuitBreakerChecker;
 use zksync_config::configs::chain::CircuitBreakerConfig;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::circuit_breakers::CircuitBreakersResource,
     service::{ServiceContext, StopReceiver},
-    task::UnconstrainedTask,
+    task::{TaskId, UnconstrainedTask},
     wiring_layer::{WiringError, WiringLayer},
 };
 

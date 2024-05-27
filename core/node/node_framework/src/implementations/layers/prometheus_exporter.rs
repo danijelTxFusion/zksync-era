@@ -1,11 +1,10 @@
 use prometheus_exporter::PrometheusExporterConfig;
 use zksync_health_check::{HealthStatus, HealthUpdater, ReactiveHealthCheck};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::healthcheck::AppHealthCheckResource,
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

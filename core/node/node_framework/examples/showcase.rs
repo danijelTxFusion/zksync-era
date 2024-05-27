@@ -7,11 +7,10 @@ use std::{
     time::Duration,
 };
 
-use zksync_node_framework::task::TaskId;
 use zksync_node_framework::{
     resource::Resource,
     service::{ServiceContext, StopReceiver, ZkStackServiceBuilder},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

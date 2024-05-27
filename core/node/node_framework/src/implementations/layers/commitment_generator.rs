@@ -1,14 +1,13 @@
 use zksync_commitment_generator::CommitmentGenerator;
 use zksync_types::commitment::L1BatchCommitmentMode;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         healthcheck::AppHealthCheckResource,
         pools::{MasterPool, PoolResource},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

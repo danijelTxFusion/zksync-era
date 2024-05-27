@@ -12,7 +12,6 @@ use zksync_storage::RocksDB;
 pub mod main_batch_executor;
 pub mod mempool_io;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         pools::{MasterPool, PoolResource},
@@ -22,7 +21,7 @@ use crate::{
         },
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

@@ -1,7 +1,6 @@
 use zksync_consistency_checker::ConsistencyChecker;
 use zksync_types::{commitment::L1BatchCommitmentMode, Address};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         eth_interface::EthInterfaceResource,
@@ -9,7 +8,7 @@ use crate::{
         pools::{MasterPool, PoolResource},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

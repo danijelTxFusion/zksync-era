@@ -5,14 +5,13 @@ use zksync_dal::{ConnectionPool, Core};
 use zksync_object_store::ObjectStore;
 use zksync_types::commitment::L1BatchCommitmentMode;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         object_store::ObjectStoreResource,
         pools::{MasterPool, PoolResource},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

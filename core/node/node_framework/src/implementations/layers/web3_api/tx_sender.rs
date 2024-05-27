@@ -6,7 +6,6 @@ use zksync_node_api_server::{
 };
 use zksync_state::PostgresStorageCaches;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         fee_input::FeeInputResource,
@@ -15,7 +14,7 @@ use crate::{
         web3_api::{TxSenderResource, TxSinkResource},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

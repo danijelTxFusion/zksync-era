@@ -1,9 +1,8 @@
 use tokio::sync::oneshot;
 
-use crate::task::TaskId;
 use crate::{
     service::{ServiceContext, StopReceiver},
-    task::UnconstrainedTask,
+    task::{TaskId, UnconstrainedTask},
     wiring_layer::{WiringError, WiringLayer},
 };
 

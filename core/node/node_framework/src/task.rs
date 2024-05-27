@@ -28,13 +28,14 @@
 //! - A task that must be started as soon as possible, e.g. healthcheck server.
 //! - A task that may be a driving force for some precondition to be met.
 
-use std::sync::Arc;
+use std::{
+    fmt::{Display, Formatter},
+    sync::Arc,
+};
 
 use tokio::sync::Barrier;
 
 use crate::service::StopReceiver;
-
-use std::fmt::{Display, Formatter};
 
 /// A unique human-readable identifier of a task.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]

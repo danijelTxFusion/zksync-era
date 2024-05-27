@@ -6,14 +6,13 @@ use zksync_dal::{ConnectionPool, Core};
 use zksync_eth_watch::{EthHttpQueryClient, EthWatch};
 use zksync_types::{ethabi::Contract, Address};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         eth_interface::EthInterfaceResource,
         pools::{MasterPool, PoolResource},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

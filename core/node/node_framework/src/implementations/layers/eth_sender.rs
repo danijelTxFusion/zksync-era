@@ -5,7 +5,6 @@ use zksync_eth_client::BoundEthInterface;
 use zksync_eth_sender::{Aggregator, EthTxAggregator, EthTxManager};
 use zksync_types::commitment::L1BatchCommitmentMode;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         circuit_breakers::CircuitBreakersResource,
@@ -15,7 +14,7 @@ use crate::{
         pools::{MasterPool, PoolResource, ReplicaPool},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

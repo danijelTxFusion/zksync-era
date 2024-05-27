@@ -8,14 +8,13 @@ use zksync_config::{
 use zksync_node_fee_model::{l1_gas_price::GasAdjuster, MainNodeFeeInputProvider};
 use zksync_types::fee_model::FeeModelConfig;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         eth_interface::EthInterfaceResource, fee_input::FeeInputResource,
         l1_tx_params::L1TxParamsResource,
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

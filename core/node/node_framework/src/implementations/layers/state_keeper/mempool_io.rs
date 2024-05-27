@@ -12,7 +12,6 @@ use zksync_state_keeper::{
     MempoolFetcher, MempoolGuard, MempoolIO, OutputHandler, SequencerSealer, StateKeeperPersistence,
 };
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         fee_input::FeeInputResource,
@@ -21,7 +20,7 @@ use crate::{
     },
     resource::Unique,
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

@@ -4,11 +4,10 @@ use zksync_config::configs::api::HealthCheckConfig;
 use zksync_health_check::AppHealthCheck;
 use zksync_node_api_server::healthcheck::HealthCheckHandle;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::healthcheck::AppHealthCheckResource,
     service::{ServiceContext, StopReceiver},
-    task::UnconstrainedTask,
+    task::{TaskId, UnconstrainedTask},
     wiring_layer::{WiringError, WiringLayer},
 };
 

@@ -10,7 +10,6 @@ use zksync_metadata_calculator::{
 };
 use zksync_storage::RocksDB;
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         healthcheck::AppHealthCheckResource,
@@ -19,7 +18,7 @@ use crate::{
         web3_api::TreeApiClientResource,
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

@@ -5,7 +5,6 @@ use zksync_circuit_breaker::replication_lag::ReplicationLagChecker;
 use zksync_config::configs::api::MaxResponseSize;
 use zksync_node_api_server::web3::{state::InternalApiConfig, ApiBuilder, ApiServer, Namespace};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         circuit_breakers::CircuitBreakersResource,
@@ -15,7 +14,7 @@ use crate::{
         web3_api::{MempoolCacheResource, TreeApiClientResource, TxSenderResource},
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

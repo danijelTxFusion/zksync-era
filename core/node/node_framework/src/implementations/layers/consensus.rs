@@ -6,7 +6,6 @@ use zksync_node_consensus as consensus;
 use zksync_node_sync::{ActionQueueSender, SyncState};
 use zksync_web3_decl::client::{DynClient, L2};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         action_queue::ActionQueueSenderResource,
@@ -15,7 +14,7 @@ use crate::{
         sync_state::SyncStateResource,
     },
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

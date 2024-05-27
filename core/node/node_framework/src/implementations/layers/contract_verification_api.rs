@@ -1,11 +1,10 @@
 use zksync_config::ContractVerifierConfig;
 use zksync_dal::{ConnectionPool, Core};
 
-use crate::task::TaskId;
 use crate::{
     implementations::resources::pools::{MasterPool, PoolResource, ReplicaPool},
     service::{ServiceContext, StopReceiver},
-    task::Task,
+    task::{Task, TaskId},
     wiring_layer::{WiringError, WiringLayer},
 };
 

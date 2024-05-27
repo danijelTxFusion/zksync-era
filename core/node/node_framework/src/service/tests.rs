@@ -4,13 +4,12 @@ use anyhow::anyhow;
 use assert_matches::assert_matches;
 use tokio::{runtime::Runtime, sync::Barrier};
 
-use crate::task::TaskId;
 use crate::{
     service::{
         ServiceContext, StopReceiver, WiringError, WiringLayer, ZkStackServiceBuilder,
         ZkStackServiceError,
     },
-    task::Task,
+    task::{Task, TaskId},
 };
 
 // `ZkStack` Service's `new()` method has to have a check for nested runtime.

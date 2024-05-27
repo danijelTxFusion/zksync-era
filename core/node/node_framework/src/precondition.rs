@@ -2,8 +2,7 @@ use std::sync::Arc;
 
 use tokio::sync::Barrier;
 
-use crate::service::StopReceiver;
-use crate::task::TaskId;
+use crate::{service::StopReceiver, task::TaskId};
 
 #[async_trait::async_trait]
 pub trait Precondition: 'static + Send + Sync {
