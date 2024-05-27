@@ -5,6 +5,7 @@ use zksync_eth_client::BoundEthInterface;
 use zksync_eth_sender::{Aggregator, EthTxAggregator, EthTxManager};
 use zksync_types::commitment::L1BatchCommitmentMode;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         circuit_breakers::CircuitBreakersResource,
@@ -127,8 +128,8 @@ struct EthTxAggregatorTask {
 
 #[async_trait::async_trait]
 impl Task for EthTxAggregatorTask {
-    fn name(&self) -> &'static str {
-        "eth_tx_aggregator"
+    fn id(&self) -> TaskId {
+        TaskId("eth_tx_aggregator".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {
@@ -143,8 +144,8 @@ struct EthTxManagerTask {
 
 #[async_trait::async_trait]
 impl Task for EthTxManagerTask {
-    fn name(&self) -> &'static str {
-        "eth_tx_manager"
+    fn id(&self) -> TaskId {
+        TaskId("eth_tx_manager".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

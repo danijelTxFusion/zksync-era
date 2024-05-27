@@ -8,6 +8,7 @@ use zksync_config::{
 use zksync_node_fee_model::{l1_gas_price::GasAdjuster, MainNodeFeeInputProvider};
 use zksync_types::fee_model::FeeModelConfig;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         eth_interface::EthInterfaceResource, fee_input::FeeInputResource,
@@ -80,8 +81,8 @@ struct GasAdjusterTask {
 
 #[async_trait::async_trait]
 impl Task for GasAdjusterTask {
-    fn name(&self) -> &'static str {
-        "gas_adjuster"
+    fn id(&self) -> TaskId {
+        TaskId("gas_adjuster".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

@@ -1,6 +1,7 @@
 use zksync_config::ContractVerifierConfig;
 use zksync_dal::{ConnectionPool, Core};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::pools::{MasterPool, PoolResource, ReplicaPool},
     service::{ServiceContext, StopReceiver},
@@ -46,8 +47,8 @@ pub struct ContractVerificationApiTask {
 
 #[async_trait::async_trait]
 impl Task for ContractVerificationApiTask {
-    fn name(&self) -> &'static str {
-        "contract_verification_api"
+    fn id(&self) -> TaskId {
+        TaskId("contract_verification_api".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

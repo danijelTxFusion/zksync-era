@@ -5,6 +5,7 @@ use zksync_dal::{ConnectionPool, Core};
 use zksync_object_store::ObjectStore;
 use zksync_types::commitment::L1BatchCommitmentMode;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         object_store::ObjectStoreResource,
@@ -73,8 +74,8 @@ struct ProofDataHandlerTask {
 
 #[async_trait::async_trait]
 impl Task for ProofDataHandlerTask {
-    fn name(&self) -> &'static str {
-        "proof_data_handler"
+    fn id(&self) -> TaskId {
+        TaskId("proof_data_handler".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

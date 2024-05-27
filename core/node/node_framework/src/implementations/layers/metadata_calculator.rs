@@ -10,6 +10,7 @@ use zksync_metadata_calculator::{
 };
 use zksync_storage::RocksDB;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         healthcheck::AppHealthCheckResource,
@@ -118,8 +119,8 @@ pub struct MetadataCalculatorTask {
 
 #[async_trait::async_trait]
 impl Task for MetadataCalculatorTask {
-    fn name(&self) -> &'static str {
-        "metadata_calculator"
+    fn id(&self) -> TaskId {
+        TaskId("metadata_calculator".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {
@@ -141,8 +142,8 @@ pub struct TreeApiTask {
 
 #[async_trait::async_trait]
 impl Task for TreeApiTask {
-    fn name(&self) -> &'static str {
-        "tree_api"
+    fn id(&self) -> TaskId {
+        TaskId("tree_api".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

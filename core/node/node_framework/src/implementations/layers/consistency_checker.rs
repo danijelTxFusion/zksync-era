@@ -1,6 +1,7 @@
 use zksync_consistency_checker::ConsistencyChecker;
 use zksync_types::{commitment::L1BatchCommitmentMode, Address};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         eth_interface::EthInterfaceResource,
@@ -75,8 +76,8 @@ pub struct ConsistencyCheckerTask {
 
 #[async_trait::async_trait]
 impl Task for ConsistencyCheckerTask {
-    fn name(&self) -> &'static str {
-        "consistency_checker"
+    fn id(&self) -> TaskId {
+        TaskId("consistency_checker".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

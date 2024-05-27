@@ -12,6 +12,7 @@ use zksync_state_keeper::{
     MempoolFetcher, MempoolGuard, MempoolIO, OutputHandler, SequencerSealer, StateKeeperPersistence,
 };
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         fee_input::FeeInputResource,
@@ -136,8 +137,8 @@ struct L2BlockSealerTask(zksync_state_keeper::L2BlockSealerTask);
 
 #[async_trait::async_trait]
 impl Task for L2BlockSealerTask {
-    fn name(&self) -> &'static str {
-        "state_keeper/l2_block_sealer"
+    fn id(&self) -> TaskId {
+        TaskId("state_keeper/l2_block_sealer".to_owned())
     }
 
     async fn run(self: Box<Self>, _stop_receiver: StopReceiver) -> anyhow::Result<()> {
@@ -151,8 +152,8 @@ struct MempoolFetcherTask(MempoolFetcher);
 
 #[async_trait::async_trait]
 impl Task for MempoolFetcherTask {
-    fn name(&self) -> &'static str {
-        "state_keeper/mempool_fetcher"
+    fn id(&self) -> TaskId {
+        TaskId("state_keeper/mempool_fetcher".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

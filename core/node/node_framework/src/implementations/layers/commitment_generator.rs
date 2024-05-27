@@ -1,6 +1,7 @@
 use zksync_commitment_generator::CommitmentGenerator;
 use zksync_types::commitment::L1BatchCommitmentMode;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         healthcheck::AppHealthCheckResource,
@@ -54,8 +55,8 @@ struct CommitmentGeneratorTask {
 
 #[async_trait::async_trait]
 impl Task for CommitmentGeneratorTask {
-    fn name(&self) -> &'static str {
-        "commitment_generator"
+    fn id(&self) -> TaskId {
+        TaskId("commitment_generator".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

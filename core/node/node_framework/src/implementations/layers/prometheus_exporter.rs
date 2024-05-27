@@ -1,6 +1,7 @@
 use prometheus_exporter::PrometheusExporterConfig;
 use zksync_health_check::{HealthStatus, HealthUpdater, ReactiveHealthCheck};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::healthcheck::AppHealthCheckResource,
     service::{ServiceContext, StopReceiver},
@@ -50,8 +51,8 @@ impl WiringLayer for PrometheusExporterLayer {
 
 #[async_trait::async_trait]
 impl Task for PrometheusExporterTask {
-    fn name(&self) -> &'static str {
-        "prometheus_exporter"
+    fn id(&self) -> TaskId {
+        TaskId("prometheus_exporter".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

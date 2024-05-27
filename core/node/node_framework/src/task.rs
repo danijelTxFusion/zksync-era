@@ -34,6 +34,18 @@ use tokio::sync::Barrier;
 
 use crate::service::StopReceiver;
 
+use std::fmt::{Display, Formatter};
+
+/// A unique human-readable identifier of a task.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct TaskId(pub String);
+
+impl Display for TaskId {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.0)
+    }
+}
+
 /// A task implementation.
 ///
 /// Note: any `Task` added to the service will only start after all the [preconditions](crate::precondition::Precondition)
@@ -41,7 +53,7 @@ use crate::service::StopReceiver;
 #[async_trait::async_trait]
 pub trait Task: 'static + Send {
     /// Unique name of the task.
-    fn name(&self) -> &'static str;
+    fn id(&self) -> TaskId;
 
     /// Runs the task.
     ///
@@ -85,7 +97,7 @@ impl dyn Task {
 #[async_trait::async_trait]
 pub trait OneshotTask: 'static + Send {
     /// Unique name of the task.
-    fn name(&self) -> &'static str;
+    fn id(&self) -> TaskId;
 
     /// Runs the task.
     ///
@@ -130,7 +142,7 @@ impl dyn OneshotTask {
 #[async_trait::async_trait]
 pub trait UnconstrainedTask: 'static + Send {
     /// Unique name of the task.
-    fn name(&self) -> &'static str;
+    fn id(&self) -> TaskId;
 
     /// Runs the task without waiting for any precondition to be met.
     async fn run_unconstrained(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()>;
@@ -141,7 +153,7 @@ pub trait UnconstrainedTask: 'static + Send {
 #[async_trait::async_trait]
 pub trait UnconstrainedOneshotTask: 'static + Send {
     /// Unique name of the task.
-    fn name(&self) -> &'static str;
+    fn id(&self) -> TaskId;
 
     /// Runs the task without waiting for any precondition to be met.
     async fn run_unconstrained_oneshot(

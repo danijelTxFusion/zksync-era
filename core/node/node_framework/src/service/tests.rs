@@ -4,6 +4,7 @@ use anyhow::anyhow;
 use assert_matches::assert_matches;
 use tokio::{runtime::Runtime, sync::Barrier};
 
+use crate::task::TaskId;
 use crate::{
     service::{
         ServiceContext, StopReceiver, WiringError, WiringLayer, ZkStackServiceBuilder,
@@ -127,8 +128,8 @@ struct ErrorTask;
 
 #[async_trait::async_trait]
 impl Task for ErrorTask {
-    fn name(&self) -> &'static str {
-        "error_task"
+    fn id(&self) -> TaskId {
+        TaskId("error_task".to_owned())
     }
     async fn run(self: Box<Self>, _stop_receiver: StopReceiver) -> anyhow::Result<()> {
         anyhow::bail!("error task")
@@ -178,8 +179,8 @@ struct SuccessfulTask(Arc<Barrier>, Arc<Mutex<bool>>);
 
 #[async_trait::async_trait]
 impl Task for SuccessfulTask {
-    fn name(&self) -> &'static str {
-        "successful_task"
+    fn id(&self) -> TaskId {
+        TaskId("successful_task".to_owned())
     }
     async fn run(self: Box<Self>, _stop_receiver: StopReceiver) -> anyhow::Result<()> {
         self.0.wait().await;
@@ -196,8 +197,8 @@ struct RemainingTask(Arc<Barrier>, Arc<Mutex<bool>>);
 
 #[async_trait::async_trait]
 impl Task for RemainingTask {
-    fn name(&self) -> &'static str {
-        "remaining_task"
+    fn id(&self) -> TaskId {
+        TaskId("remaining_task".to_owned())
     }
 
     async fn run(self: Box<Self>, mut stop_receiver: StopReceiver) -> anyhow::Result<()> {

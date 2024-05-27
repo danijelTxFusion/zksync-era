@@ -6,6 +6,7 @@ use zksync_node_consensus as consensus;
 use zksync_node_sync::{ActionQueueSender, SyncState};
 use zksync_web3_decl::client::{DynClient, L2};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         action_queue::ActionQueueSenderResource,
@@ -110,8 +111,8 @@ pub struct MainNodeConsensusTask {
 
 #[async_trait::async_trait]
 impl Task for MainNodeConsensusTask {
-    fn name(&self) -> &'static str {
-        "consensus"
+    fn id(&self) -> TaskId {
+        TaskId("consensus".to_owned())
     }
 
     async fn run(self: Box<Self>, mut stop_receiver: StopReceiver) -> anyhow::Result<()> {
@@ -147,8 +148,8 @@ pub struct FetcherTask {
 
 #[async_trait::async_trait]
 impl Task for FetcherTask {
-    fn name(&self) -> &'static str {
-        "consensus_fetcher"
+    fn id(&self) -> TaskId {
+        TaskId("consensus_fetcher".to_owned())
     }
 
     async fn run(self: Box<Self>, mut stop_receiver: StopReceiver) -> anyhow::Result<()> {

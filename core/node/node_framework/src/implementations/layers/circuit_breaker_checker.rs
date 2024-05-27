@@ -1,6 +1,7 @@
 use zksync_circuit_breaker::CircuitBreakerChecker;
 use zksync_config::configs::chain::CircuitBreakerConfig;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::circuit_breakers::CircuitBreakersResource,
     service::{ServiceContext, StopReceiver},
@@ -43,8 +44,8 @@ struct CircuitBreakerCheckerTask {
 
 #[async_trait::async_trait]
 impl UnconstrainedTask for CircuitBreakerCheckerTask {
-    fn name(&self) -> &'static str {
-        "circuit_breaker_checker"
+    fn id(&self) -> TaskId {
+        TaskId("circuit_breaker_checker".to_owned())
     }
 
     async fn run_unconstrained(

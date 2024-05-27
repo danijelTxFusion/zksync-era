@@ -6,6 +6,7 @@ use zksync_dal::{ConnectionPool, Core};
 use zksync_eth_watch::{EthHttpQueryClient, EthWatch};
 use zksync_types::{ethabi::Contract, Address};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         eth_interface::EthInterfaceResource,
@@ -83,8 +84,8 @@ struct EthWatchTask {
 
 #[async_trait::async_trait]
 impl Task for EthWatchTask {
-    fn name(&self) -> &'static str {
-        "eth_watch"
+    fn id(&self) -> TaskId {
+        TaskId("eth_watch".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

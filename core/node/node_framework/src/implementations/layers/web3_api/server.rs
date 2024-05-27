@@ -5,6 +5,7 @@ use zksync_circuit_breaker::replication_lag::ReplicationLagChecker;
 use zksync_config::configs::api::MaxResponseSize;
 use zksync_node_api_server::web3::{state::InternalApiConfig, ApiBuilder, ApiServer, Namespace};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         circuit_breakers::CircuitBreakersResource,
@@ -206,10 +207,10 @@ type ApiJoinHandle = JoinHandle<anyhow::Result<()>>;
 
 #[async_trait::async_trait]
 impl Task for Web3ApiTask {
-    fn name(&self) -> &'static str {
+    fn id(&self) -> TaskId {
         match self.transport {
-            Transport::Http => "web3_http_server",
-            Transport::Ws => "web3_ws_server",
+            Transport::Http => TaskId("web3_http_server".to_owned()),
+            Transport::Ws => TaskId("web3_ws_server".to_owned()),
         }
     }
 
@@ -232,8 +233,8 @@ struct ApiTaskGarbageCollector {
 
 #[async_trait::async_trait]
 impl Task for ApiTaskGarbageCollector {
-    fn name(&self) -> &'static str {
-        "api_task_garbage_collector"
+    fn id(&self) -> TaskId {
+        TaskId("api_task_garbage_collector".to_owned())
     }
 
     async fn run(self: Box<Self>, _stop_receiver: StopReceiver) -> anyhow::Result<()> {

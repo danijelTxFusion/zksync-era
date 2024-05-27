@@ -2,6 +2,7 @@ use std::time::Duration;
 
 use zksync_node_api_server::web3::mempool_cache::{self, MempoolCache};
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         pools::{PoolResource, ReplicaPool},
@@ -49,8 +50,8 @@ pub struct MempoolCacheUpdateTask(mempool_cache::MempoolCacheUpdateTask);
 
 #[async_trait::async_trait]
 impl Task for MempoolCacheUpdateTask {
-    fn name(&self) -> &'static str {
-        "mempool_cache_update_task"
+    fn id(&self) -> TaskId {
+        TaskId("mempool_cache_update_task".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {

@@ -12,6 +12,7 @@ use zksync_storage::RocksDB;
 pub mod main_batch_executor;
 pub mod mempool_io;
 
+use crate::task::TaskId;
 use crate::{
     implementations::resources::{
         pools::{MasterPool, PoolResource},
@@ -105,8 +106,8 @@ struct StateKeeperTask {
 
 #[async_trait::async_trait]
 impl Task for StateKeeperTask {
-    fn name(&self) -> &'static str {
-        "state_keeper"
+    fn id(&self) -> TaskId {
+        TaskId("state_keeper".to_owned())
     }
 
     async fn run(self: Box<Self>, stop_receiver: StopReceiver) -> anyhow::Result<()> {
@@ -134,8 +135,8 @@ struct RocksdbCatchupTask(AsyncCatchupTask);
 
 #[async_trait::async_trait]
 impl Task for RocksdbCatchupTask {
-    fn name(&self) -> &'static str {
-        "state_keeper/rocksdb_catchup_task"
+    fn id(&self) -> TaskId {
+        TaskId("state_keeper/rocksdb_catchup_task".to_owned())
     }
 
     async fn run(self: Box<Self>, mut stop_receiver: StopReceiver) -> anyhow::Result<()> {
